@@ -71,7 +71,7 @@
                                 {{ $transaction->product->name ?? '' }}
                             </div>
                             <div class="col-md-3">
-                                {{ $transaction->transaction->total_price ?? '' }}
+                                Rp. {{ number_format($transaction->transaction->total_price) ?? '' }}
                             </div>
                             <div class="col-md-3">
                                 {{  $transaction->created_at ?? '' }}

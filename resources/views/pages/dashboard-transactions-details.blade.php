@@ -37,8 +37,8 @@
                               <div class="product-subtitle">{{ $transaction->created_at }}</div>
                             </div>
                             <div class="col-12 col-md-6">
-                              <div class="product-title">Payment Status</div>
-                              <div class="product-subtitle text-danger">{{ $transaction->transaction->transaction_status }}</div>
+                              <div class="product-title text-primary">Payment Status</div>
+                              <div class="product-subtitle">{{ $transaction->transaction->transaction_status }}</div>
                             </div>
                             <div class="col-12 col-md-6">
                               <div class="product-title">Total Amount</div>
@@ -92,8 +92,9 @@
                         <div class="product-subtitle">{{ $transaction->transaction->user->country }}</div>
                       </div>
                       <div class="col-12 col-md-3">
-                        <div class="product-title">Shipping Status</div>
-                        <select
+                        <div class="product-title">Nomor Resi</div>
+                        <div class="product-subtitle">{{ $transaction->resi ? : "Belum ada Resi" }}</div>
+                        <!-- <select
                           name="shipping_status"
                           id="status"
                           class="form-control"
@@ -102,9 +103,9 @@
                           <option value="PENDING">Pending</option>
                           <option value="SHIPPING">Shipping</option>
                           <option value="SUCCESS">Success</option>
-                        </select>
+                        </select> -->
                       </div>
-                      <template v-if="status == 'SHIPPING'">
+                      <!-- <template v-if="status == 'SHIPPING'">
                         <div class="col-md-3">
                           <div class="product-title">Input Resi</div>
                           <input
@@ -122,18 +123,13 @@
                             Update Resi
                           </button>
                         </div>
-                      </template>
+                      </template> -->
                     </div>
                   </div>
-                </div>
+                </div> 
                 <div class="row mt-4">
                   <div class="col-12 text-right">
-                    <button
-                      type="submit"
-                      class="btn btn-success btn-lg mt-4"
-                    >
-                      Save Now
-                    </button>
+                    <a href="{{ url()->previous() }}" class="btn btn-success btn-lg mt-4">Back</a>
                   </div>
                 </div>
               </form>

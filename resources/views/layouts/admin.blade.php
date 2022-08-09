@@ -23,7 +23,9 @@
       <!-- Sidebar -->
       <div class="border-right" id="sidebar-wrapper">
         <div class="sidebar-heading text-center">
-          <img src="/images/admin.png" alt="" class="my-4" style="max-width: 150px">
+          <a href="{{ route('home') }}">
+            <img src="/images/admin.png" alt="" class="my-4" style="max-width: 150px">
+          </a>
         </div>
         <div class="list-group list-group-flush">
           <a href="{{ route('admin-dashboard') }}" class="list-group-item list-group-item-action">
@@ -38,7 +40,7 @@
           <a href="{{ route('category.index') }}" class="list-group-item list-group-item-action {{ (request()->is('admin/category*')) ? 'active' : '' }}">
             Categories
           </a>
-          <a href="#" class="list-group-item list-group-item-action">
+          <a href="{{ route('transaction.index') }}" class="list-group-item list-group-item-action {{ (request()->is('admin/transaction*')) ? 'active' : '' }}">
             Transactions
           </a>
           <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action {{ (request()->is('admin/user*')) ? 'active' : '' }}">
@@ -70,7 +72,7 @@
               <ul class="navbar-nav d-none d-lg-flex ml-auto">
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown">
-                    <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture">
+                    <!-- <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture"> -->
                     Hi, {{ Auth::user()->name }}
                   </a>
                 </li>
@@ -101,6 +103,14 @@
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.jss"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();

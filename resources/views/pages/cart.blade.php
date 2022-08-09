@@ -38,7 +38,7 @@
                 </th>
                 <tbody>
                     @php $totalPrice = 0 @endphp
-                  @foreach ($carts as $cart)
+                  @forelse ($carts as $cart)
                     <tr>
                       <td style="width: 20%;">
                         @if($cart->product->galleries)
@@ -57,17 +57,21 @@
                         <div class="product-subtitle">Rupiah</div>
                       </td>
                       <td style="width: 20%;">
-                        <form action="{{ route('cart-delete', $cart->products_id) }}" method="POST">
-                          @method('DELETE')
-                          @csrf
-                          <button class="btn btn-remove-cart" type="submit">
-                            Remove
-                          </button>
-                        </form>
+                        <form action="{{route('cart-delete',$cart->id)}}" method="POST">
+                      @csrf
+                      @method("DELETE")
+                      <button type="submit" class="btn btn-remove-cart">
+                        Remove
+                      </button>
+                    </form>
                       </td>
                     </tr>
                     @php $totalPrice += $cart->product->price @endphp
-                  @endforeach
+                    @empty
+                     <tr class="text-center">
+                       <td colspan="4">Tidak ada Produk</td>
+                     </tr>
+                  @endforelse
                 </tbody>
               </table>
             </div>
@@ -112,7 +116,7 @@
                 <div class="form-group">
                   <label for="provinces_id">Province</label>
                   <select name="provinces_id" id="provinces_id" class="form-control" v-model="provinces_id" v-if="provinces">
-                    <option v-for="province in provinces" :value="province.id">@{{ province.name }}</option>
+                    <option v-for="province in provinces" :value="province.province_id">@{{ province.province }}</option>
                   </select>
                   <select v-else class="form-control"></select>
                 </div>
@@ -121,7 +125,16 @@
                 <div class="form-group">
                   <label for="regencies_id">City</label>
                   <select name="regencies_id" id="regencies_id" class="form-control" v-model="regencies_id" v-if="regencies">
-                    <option v-for="regency in regencies" :value="regency.id">@{{regency.name }}</option>
+                    <option v-for="regency in regencies" :value="regency.city_id">@{{regency.city_name }}</option>
+                  </select>
+                  <select v-else class="form-control"></select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="courier_code">Kurir</label>
+                  <select name="courier_code" id="courier_code" class="form-control" v-model="courier_code" v-if="couriers">
+                    <option v-for="courier in couriers" :value="courier.code">@{{courier.name }}</option>
                   </select>
                   <select v-else class="form-control"></select>
                 </div>
@@ -173,11 +186,11 @@
             </div>
             <div class="row" data-aos="fade-up" data-aos-delay="200">
               <div class="col-4 col-md-3">
-                <div class="product-title">$0</div>
+                <div class="product-title">Rp.0</div>
                 <div class="product-subtitle">Product Insurance</div>
               </div>
               <div class="col-4 col-md-3">
-                <div class="product-title">$0</div>
+                <div class="product-title">Rp.0</div>
                 <div class="product-subtitle">Ship to Jakarta</div>
               </div>
               <div class="col-4 col-md-3">
@@ -188,6 +201,7 @@
                 <button
                   type="submit"
                   class="btn btn-success mt-4 px-4 btn-block"
+                  {{ (!empty($cart)) ? '' : 'disabled' }}
                 >
                   Checkout Now
                 </button>
@@ -208,26 +222,38 @@
         el: "#locations",
         mounted() {
           this.getProvincesData();
+          this.getCourierData()
+          
         },
         data: {
           provinces: null,
           regencies: null,
+          couriers: null,
           provinces_id: null,
           regencies_id: null,
+          courier_code: null,
         },
         methods: {
           getProvincesData() {
             var self = this;
-            axios.get('{{ route('api-provinces') }}')
+            axios.get('{{ route('get-provinces') }}')
               .then(function (response) {
                   self.provinces = response.data;
               })
           },
           getRegenciesData() {
             var self = this;
-            axios.get('{{ url('api/regencies') }}/' + self.provinces_id)
+           
+            axios.get('{{ url('api/get-cities') }}/' + self.provinces_id)
               .then(function (response) {
                   self.regencies = response.data;
+              })
+          },
+          getCourierData() {
+           var self = this
+            axios.get('{{ url('api/get-courier') }}')
+              .then(function (response) {
+                self.couriers = response.data;
               })
           },
         },
@@ -235,6 +261,7 @@
           provinces_id: function (val, oldVal) {
             this.regencies_id = null;
             this.getRegenciesData();
+            
           },
         }
       });

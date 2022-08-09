@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    public function provinces(Request $request)
+   public function provinces(Request $request)
     {
         return Province::all();
     }

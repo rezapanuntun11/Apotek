@@ -22,7 +22,9 @@
       <!-- Sidebar -->
       <div class="border-right" id="sidebar-wrapper">
         <div class="sidebar-heading text-center">
-          <img src="/images/dashboard-store-logo.svg" alt="" class="my-4">
+          <a href="{{ route('home') }}">
+            <img src="/images/dashboard-store-logo.svg" alt="" class="my-4">
+          </a>
         </div>
         <div class="list-group list-group-flush">
           <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action {{ (request()->is('dashboard')) ? 'active' : '' }}">
@@ -59,7 +61,7 @@
               <ul class="navbar-nav d-none d-lg-flex ml-auto">
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown">
-                    <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture">
+                    <!-- <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture"> -->
                     Hi, {{ Auth::user()->name }}
             </a>
             <div class="dropdown-menu">

@@ -15,7 +15,7 @@
             <a href="{{ route('categories') }}" class="nav-link">Categories</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">About Us</a>
+            <a href="{{ route('about') }}" class="nav-link">About Us</a>
           </li>
           @guest
               <li class="nav-item">
@@ -31,7 +31,7 @@
             <ul class="navbar-nav d-none d-lg-flex">
           <li class="nav-item dropdown">
             <a href="#" class="nav-link" id="navbarDropdown" role="button" data-toggle="dropdown">
-              <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile-picture">
+              <!-- <img src="/images/icon-user.png" alt="" class="rounded-circle mr-2 profile -->
               Hi, {{ Auth::user()->name }}
             </a>
             <div class="dropdown-menu">

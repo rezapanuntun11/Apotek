@@ -57,7 +57,7 @@
         { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
         { data: 'name', name: 'name' },
         { data: 'category.name', name: 'category.name' },
-        { data: 'price', name: 'price' },
+        { data: 'price', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
         { 
           data: 'action',
           name: 'action',
