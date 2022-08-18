@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $revenue = Transaction::where('transaction_status','SUCCESS')->sum('total_price');
         $transaction = Transaction::count();
 
-        $transactions = TransactionDetail::with(['transaction.user','product.galleries'])
+        $transactions = TransactionDetail::with(['transaction.user','product.galleries'])->latest()->take(5)
                             ->get();
                             
         return view('pages.admin.dashboard',[

@@ -13,6 +13,7 @@ use Exception;
 
 use Midtrans\Snap;
 use Midtrans\Config;
+use Midtrans\Notification;
 
 class CheckoutController extends Controller
 {
@@ -20,7 +21,6 @@ class CheckoutController extends Controller
     {
         // save user data
         $user = Auth::user();
-        $user->update($request->except('total_price'));
 
         // process checkout
         $code = 'STORE-' . mt_rand(00000,99999);
@@ -30,7 +30,7 @@ class CheckoutController extends Controller
         $transaction = Transaction::create([
             'users_id' => Auth::user()->id,
             'insurance_price' => 0,
-            'shipping_price' => 0,
+            'shipping_price' => (int) $request->ship_total,
             'total_price' => (int) $request->total_price,
             'transaction_status' => 'PENDING',
             'code' => $code
@@ -69,7 +69,7 @@ class CheckoutController extends Controller
                 'email' => Auth::user()->email,
             ],
             'enabled_payments' => [
-                'gopay', 'bri_va', 'bank_transfer'
+                'gopay', 'bri_va', 'bank_transfer', 'indomaret', 'shopeepay'
             ],
             'vtweb' => []
         ];
@@ -88,6 +88,57 @@ class CheckoutController extends Controller
 
     public function callback(Request $request)
     {
+        // Set konfigurasi midtrans
+        Config::$serverKey = config('services.midtrans.serverKey');
+        Config::$isProduction = config('services.midtrans.isProduction');
+        Config::$isSanitized = config('services.midtrans.isSanitized');
+        Config::$is3ds = config('services.midtrans.is3ds');
 
+        // Instance midtrans notification
+        $notification = new Notification();
+
+        // Assign ke variable untuk memudahkan coding
+        $status = $notification->transaction_status;
+        $type = $notification->payment_type;
+        $fraud = $notification->fraud_status;
+        $order_id = $notification->order_id;
+
+        // Cari transaksi berdasarkan ID
+        $transaction = Transaction::where('code',$order_id)->first();
+
+        // handle notification status
+        if($status == 'capture') {
+            if($type == 'credit_card') {
+                if($fraud == 'challenge') {
+                    $transaction->transaction_status = 'PENDING';
+                }
+                else {
+                    $transaction->transaction_status = 'SUCCESS';
+                }
+            }
+        }
+
+        else if($status == 'settlement') {
+            $transaction->transaction_status = 'SUCCESS';
+        }
+
+        else if($status == 'pending') {
+            $transaction->transaction_status = 'PENDING';
+        }
+
+        else if($status == 'deny') {
+            $transaction->transaction_status = 'CANCELLED';
+        }
+
+        else if($status == 'expire') {
+            $transaction->transaction_status = 'CANCELLED';
+        }
+
+        else if($status == 'cancel') {
+            $transaction->transaction_status = 'CANCELLED';
+        }
+
+        // simpan transaksi
+        $transaction->save();
     }
 }

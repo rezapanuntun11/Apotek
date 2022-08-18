@@ -25,3 +25,4 @@ Route::get('regencies/{provinces_id}', 'API\LocationController@regencies')->name
 Route::get('/get-provinces', 'RajaOngkirController@provinces')->name('get-provinces');
 Route::get('/get-cities/{id}', 'RajaOngkirController@cities')->name('get-cities');
 Route::get('/get-courier', 'RajaOngkirController@courier')->name('get-courier');
+Route::POST('/rajaongkir/checkOngkir', 'Api\LocationController@checkOngkir')->name('api-checkOngkir');

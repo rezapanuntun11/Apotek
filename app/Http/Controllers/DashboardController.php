@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index()
     {
         $transactions = TransactionDetail::with(['transaction.user','product.galleries'])
-                            ->take(5)
+                            ->latest()->take(5)
                             ->whereHas('transaction', function($product){
                                 $product->where('users_id', Auth::user()->id);
                             });
