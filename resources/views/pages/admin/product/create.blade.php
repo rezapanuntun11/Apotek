@@ -66,7 +66,7 @@
                                         <label>Input by</label>
                                         <select name="users_id" class="form-control" required>
                                             @foreach ($users as $user)
-                                                <option value="{{ $user->id='1' }}">Admin</option>
+                                                <option value="{{ Auth::user()->id }}">{{ $user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
