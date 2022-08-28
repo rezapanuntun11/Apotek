@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,17 +22,19 @@ Route::get('/categories/{id}', 'CategoryController@detail')->name('categories-de
 Route::get('/abouts', 'AboutController@index')->name('about');
 
 Route::get('/details/{id}', 'DetailController@index')->name('detail');
-Route::post('/details/{id}', 'DetailController@add')->name('detail-add');
+Route::post('/details/{id}', 'DetailController@add')->name('detail-add')->middleware(['auth', 'verified']);
 
-Route::post('/checkout/callback', 'CheckoutController@callback')->name('midtrans-callback');
+
 
 Route::get('/success', 'CartController@success')->name('success');
+Route::get('/unfinish', 'CartController@unfinish')->name('unfinish');
+Route::get('/error', 'CartController@error')->name('error');
 
 Route::get('/register/success', 'Auth\RegisterController@success')->name('register-success');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth','verified']], function () {
 
-    Route::get('/cart', 'CartController@index')->name('cart');
+    Route::get('/cart', 'CartController@index')->name('cart')->middleware(['auth', 'verified']);
     Route::delete('/cart/{id}', 'CartController@delete')->name('cart-delete');
 
     Route::post('/checkout', 'CheckoutController@process')->name('checkout');
@@ -70,4 +73,4 @@ Route::prefix('admin')
         // 
     });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
