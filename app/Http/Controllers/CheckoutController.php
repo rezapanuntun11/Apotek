@@ -151,5 +151,9 @@ class CheckoutController extends Controller
 
         // simpan transaksi
         $transaction->save();
+        return response()->json([
+            'status' => "success",
+            'message' => "callback success"
+        ]);
     }
 }
