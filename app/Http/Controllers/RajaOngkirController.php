@@ -16,7 +16,7 @@ class RajaOngkirController extends Controller
         $destination = $request->destination;
         $courier = $request->courier;
         $response = Http::withHeaders(['key' => '320a8cc242375f3a230db7950ee0b8ec'])->post('https://api.rajaongkir.com/starter/cost', [
-            "origin" =>  501,
+            "origin" =>  427,
             "destination" => $destination,
             "weight" => $cart * 100,
             "courier" =>  $courier,
