@@ -1,7 +1,7 @@
 @extends('layouts.success')
 
 @section('title')
-    Store Success Page
+    Store Unfinish Page
 @endsection
 
 @section('content')
