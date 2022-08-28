@@ -15,8 +15,7 @@
               Transaction Belum di proses!
             </h2>
             <p>
-              Silahkan tunggu konfirmasi email dari kami dan kami akan
-              menginformasikan resi secepat mungkin!
+              Silahkan lanjutkan proses transaksi anda, Terima Kasih !
             </p>
             <div>
               <a href="{{ route('dashboard') }}" class="btn btn-success w-50 mt-4">

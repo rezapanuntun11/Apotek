@@ -15,8 +15,7 @@
               Transaction Error!
             </h2>
             <p>
-              Silahkan tunggu konfirmasi email dari kami dan kami akan
-              menginformasikan resi secepat mungkin!
+              Mohon maaf transaksi anda tidak berhasil!
             </p>
             <div>
               <a href="{{ route('dashboard') }}" class="btn btn-success w-50 mt-4">
