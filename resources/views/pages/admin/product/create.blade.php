@@ -63,6 +63,13 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label>Stock</label>
+                                       
+                                            <input type="number" name="stock" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label>Input by</label>
                                         <select name="users_id" class="form-control" required>
                                             @foreach ($users as $user)

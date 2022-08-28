@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="page-content page-details">
+    <div class="page-content page-details"  id="gallery">
         <section class="store-breadcrumbs" data-aos="fade-down" data-aos-delay="100">
         <div class="container">
             <div class="row">
@@ -23,7 +23,7 @@
         </div>
         </section>
 
-        <section class="store-gallery mb-3" id="gallery">
+        <section class="store-gallery mb-3">
         <div class="container">
             <div class="row">
             <div class="col-lg-8" data-aos="zoom-in">
@@ -57,11 +57,38 @@
                     @auth
                     <form action="{{ route('detail-add', $product->id) }}" method="POST" enctype="multipart/form-data">
                       @csrf
-                            <button type="submit" class="btn btn-success px-4 text-white btn-block mb-3">
+                      Stock : 
+                      {{ $product->stock }}
+    
+                      <br>
+                      <br>
+                      <label for="">Stock</label>
+                      <div class="d-flex my-2">
+                        <button type="button" @click="GetMin()" class="btn btn-sm btn-danger"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                        <input
+                          type="number"
+                          name="quantity"
+                          class="form-control"
+                          readonly
+                          min="1"
+                          max="{{ $product->stock }}"
+                          v-model="quantity"
+                          style="width: 70px !important;"
+                        />
+                        <button type="button" @click="GetPlush()" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i></button>
+    
+                      </div>
+                            <button type="submit" class="btn btn-success px-4 text-white btn-block mb-3  
+                                    " {{ $product->stock <= 0 ? 'disabled' : '' }}>
                                 Add to Cart
                             </button>
                         </form>
                     @else
+                    Stock : 
+                    {{ $product->stock }}
+  
+                    <br>
+                    <br>    
                         <a href="{{ route('login') }}" class="btn btn-success px-4 text-white btn-block mb-3">
                             Sign in to Add Cart
                         </a>
@@ -97,6 +124,7 @@
         },
         data: {
           activePhoto: 0,
+          quantity: 1,
           photos: [
             @foreach ($product->galleries as $gallery)
             {
@@ -109,6 +137,17 @@
         methods: {
           changeActive(id) {
             this.activePhoto = id;
+          },
+          GetMin(){
+            if(this.quantity > 1){
+              this.quantity--;
+            }
+          },
+          GetPlush(){
+            if(this.quantity < {{ $product->stock }}){
+              this.quantity++;
+            }
+            // this.quantity += 1;
           },
         },
       });

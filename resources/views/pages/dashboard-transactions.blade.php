@@ -21,16 +21,21 @@
                         class="card card-list d-block">
                         <div class="card-body">
                           <div class="row">
-                            <div class="col-md-1">
-                              <img src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}" class="w-75">
-                            </div>
-                            <div class="col-md-4">
-                              {{ $transaction->product->name ?? '' }}
-                            </div>
                             <div class="col-md-3">
-                              Rp. {{ number_format($transaction->product->price) ?? '' }}
+                              {{ $transaction->code ?? '' }}
+
+                              {{-- <img src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}" class="w-75"> --}}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                              {{ $transaction->user->name ?? '' }}
+                            </div>
+                            <div class="col-md-2">
+                              Rp. {{ number_format($transaction->total_price) ?? '' }}
+                            </div>
+                            <div class="col-md-2">
+                              {{ $transaction->transaction_status ?? '' }}
+                            </div>
+                            <div class="col-md-2">
                               {{ $transaction->created_at ?? '' }}
                             </div>
                             <div class="col-md-1 d-none d-md-block">

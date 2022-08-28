@@ -63,6 +63,13 @@
                                         <textarea name="description" id="editor">{!! $item->description !!}</textarea>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Stock</label>
+                                       
+                                            <input type="number" name="stock" value="{{ $item->stock }}" class="form-control" required>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col text-right">

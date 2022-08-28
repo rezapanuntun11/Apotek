@@ -25,6 +25,13 @@
 
         <section class="store-cart">
         <div class="container">
+          {{-- session error --}}
+          @if (session('error'))
+
+          <div class="alert alert-danger">
+            {{ session('error') }}
+          </div>
+          @endif
             <div class="row" data-aos="fade-up" data-aos-delay="100">
             <div class="col-12 table-responsive">
                 <table class="table table-borderless table-cart">
@@ -33,6 +40,7 @@
                     <td><u><strong>Image</strong></u></td>
                     <td><u><strong>Product Name</strong></u></td>
                     <td><u><strong>Price</strong></u></td>
+                    <td><u><strong>Quantity</strong></u></td>
                     <td><u><strong>Menu</strong></u></td>
                     </tr>
                 </th>
@@ -49,12 +57,15 @@
                           />
                         @endif
                       </td>
-                      <td style="width: 35%;">
+                      <td style="width: 30%;">
                         <div class="product-title">{{ $cart->product->name }}</div>
                       </td>
-                      <td style="width: 35%;">
+                      <td style="width: 30%;">
                         <div class="product-title">Rp. {{ number_format($cart->product->price) }}</div>
                         <div class="product-subtitle">Rupiah</div>
+                      </td>
+                      <td style="width: 10%;">
+                        <div class="product-title">{{ $cart->quantity }}</div>
                       </td>
                       <td style="width: 20%;">
                         <form action="{{ route('cart-delete', $cart->id) }}" method="POST">
@@ -66,7 +77,7 @@
                         </form>
                       </td>
                     </tr>
-                    @php $totalPrice += $cart->product->price @endphp
+                    @php $totalPrice += $cart->quantity * $cart->product->price @endphp
                   @endforeach
                 </tbody>
               </table>
@@ -83,6 +94,7 @@
           <form action="{{ route('checkout') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="total_price" id="total_price" value="{{ $totalPrice }}">
+            <input type="hidden" name="total_pay" id="total_pay" value="{{ $totalPrice }}">
             <input type="hidden" name="ship_total" id="ship_total" value="">
             <div class="row mb-2" data-aos="fade-up" data-aos-delay="200" id="locations">
               <div class="col-md-6">
@@ -239,6 +251,7 @@
           regencies: null,
           couriers: null,
           costs:[],
+          user_id: {{ Auth::user()->id }},
           courier_cost:0,
           service:null,
           description:null,
@@ -274,7 +287,7 @@
           checkOngkir() {
             var self = this;
             var destination = self.regencies_id
-            axios.post('{{ url('api/check-ongkir') }}',{destination:self.regencies_id,courier:self.courier_code})
+            axios.post('{{ url('api/check-ongkir') }}',{destination:self.regencies_id,courier:self.courier_code,user_id:self.user_id})
               .then(function (response) {
                 self.costs = response.data['rajaongkir']['results'][0].costs
               
@@ -288,7 +301,7 @@
             self.courier_service = shipping[1]
             let formatCost = parseFloat(self.courier_cost);
             document.getElementById('courier_cost').innerHTML = `Rp. ${formatCost}`
-            let total = document.getElementById('total_price').value;
+            let total = document.getElementById('total_pay').value;
             let totalPayment = parseInt(total) + parseInt(self.courier_cost)
             let formatPayment = parseFloat(totalPayment);
             document.getElementById('grand_total').innerHTML = `Rp. ${formatPayment}`

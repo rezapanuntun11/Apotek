@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\TransactionDetail;
+use App\Transaction;
 use App\User;
 
 use Illuminate\Http\Request;
@@ -12,16 +12,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $transactions = TransactionDetail::with(['transaction.user','product.galleries'])
-                            ->latest()->take(5)
-                            ->whereHas('transaction', function($product){
-                                $product->where('users_id', Auth::user()->id);
-                            });
-                            
-        return view('pages.dashboard',[
+        $transactions = Transaction::with(['transactiondetails.product.galleries'])
+            ->where('users_id', Auth::user()->id)
+            ->latest()->take(5);
+
+        return view('pages.dashboard', [
             'transaction_count' => $transactions->count(),
             'transaction_data' => $transactions->get(),
         ]);
-        
     }
 }

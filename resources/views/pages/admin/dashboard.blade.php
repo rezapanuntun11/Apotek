@@ -51,44 +51,51 @@
                     </div>
                   </div>
                 </div>
-                <div class="row mt-3">
-        <div class="col-12 mt-2">
-            <h5 class="mb-3">Recent Transactions</h5>
-            @foreach ($transaction_data as $transaction)
-              <a
-                href="{{ route('dashboard-transaction-details', $transaction->id) }}"
-                class="card card-list d-block"
-                >
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-1">
-                            <img
-                                src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}"
-                                class="w-75"
-                            />
-                        </div>
-                        <div class="col-md-4">
-                                {{ $transaction->product->name ?? '' }}
-                            </div>
-                            <div class="col-md-3">
-                                Rp. {{ number_format($transaction->transaction->total_price) ?? '' }}
-                            </div>
-                            <div class="col-md-3">
-                                {{  $transaction->created_at ?? '' }}
-                            </div>
-                            <div class="col-md-1 d-none d-md-block">
-                                <img
-                                    src="/images/dashboard-arrow-right.svg"
-                                    alt=""
-                                />
-                        </div>
-                    </div>
-                </div>
-            </a>  
-            @endforeach
-        </div>
               </div>
-            </div>
+              <div class="row mt-3">
+                <div class="col-12 mt-2">
+                    <h5 class="mb-3">Recent Transactions</h5>
+                    @foreach ($transaction_data as $transaction)
+                      <a
+                        href="{{ route('transaction.show', $transaction->id) }}"
+                        class="card card-list d-block"
+                        >
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    {{-- <img
+                                        src="{{ Storage::url($transaction->product->galleries->first()->photos ?? '') }}"
+                                        class="w-75"
+                                    /> --}}
+                                    {{ $transaction->code ?? '' }}
+                                </div>
+                                <div class="col-md-2">
+                                        {{ $transaction->user->name ?? '' }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        Rp. {{ number_format($transaction->total_price) ?? '' }}
+                                    </div>
+                                    <div class="col-md-2">
+                                      {{ $transaction->resi ?? 'belum ada resi' }}
+                                    </div>
+                                    <div class="col-md-1">
+                                      {{ $transaction->transaction_status ?? '' }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{  $transaction->created_at ?? '' }}
+                                    </div>
+                                    <div class="col-md-1 d-none d-md-block">
+                                        <img
+                                            src="/images/dashboard-arrow-right.svg"
+                                            alt=""
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                    </a>  
+                    @endforeach
+                </div>
+              </div>
           </div>
     </div>
 @endsection

@@ -12,12 +12,22 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'users_id', 
+        'users_id',
         'insurance_price',
         'shipping_price',
         'total_price',
         'transaction_status',
-        'code'
+        'code',
+        'service',
+        'courier',
+        'phone_number',
+        'country',
+        'provinces_id',
+        'regencies_id',
+        'zip_code',
+        'address_one',
+        'address_two',
+        'resi',
     ];
 
     /**
@@ -25,12 +35,16 @@ class Transaction extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        
-    ];
+    protected $hidden = [];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'users_id', 'id');
+    }
+
+    // transaction detail
+    public function transactiondetails()
+    {
+        return $this->hasMany(TransactionDetail::class, 'transactions_id', 'id');
     }
 }

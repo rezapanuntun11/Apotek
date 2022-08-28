@@ -20,7 +20,7 @@ class TransactionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Transaction::with(['user']);
+            $query = Transaction::with(['user'])->latest();
 
             return Datatables::of($query)
                 ->addColumn('action', function ($item) {
@@ -84,7 +84,11 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction = Transaction::with(['transactiondetails.product.galleries'])
+            ->findOrFail($id);
+        return view('pages.admin.transaction.details', [
+            'transaction' => $transaction
+        ]);
     }
 
     /**
@@ -96,8 +100,8 @@ class TransactionController extends Controller
     public function edit($id)
     {
         $item = Transaction::with(['user'])->findOrFail($id);
-        
-        return view('pages.admin.transaction.edit',[
+
+        return view('pages.admin.transaction.edit', [
             'item' => $item
         ]);
     }
@@ -114,15 +118,14 @@ class TransactionController extends Controller
         $data = $request->all();
 
         $item = Transaction::findOrFail($id);
-        
-        $items = TransactionDetail::findOrFail($id);
+
+        $items = TransactionDetail::where('transactions_id', $id)->update([
+            'resi' => $data['resi']
+        ]);
 
         $item->update($data);
-        $items->update($data);
 
-        return redirect()->route('transaction.index',[
-            'items' => $items
-        ]);
+        return redirect()->route('transaction.index');
     }
 
     /**

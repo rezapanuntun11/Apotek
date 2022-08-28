@@ -30,6 +30,7 @@
                                         <th>Name</th>
                                         <th>Price</th>
                                         <th>Status</th>
+                                        <th>Resi</th>
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
@@ -64,6 +65,7 @@
                 { data: 'user.name', name: 'user.name' },
                 { data: 'total_price', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
                 { data: 'transaction_status', name: 'transaction_status' },
+                { data: 'resi', name: 'resi' },
                 { data: 'created_at', name: 'created_at' },
                 {
                     data: 'action',

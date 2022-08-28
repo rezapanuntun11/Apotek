@@ -29,6 +29,7 @@
                               <th>Name</th>
                               <th>Category</th>
                               <th>Price</th>
+                              <th>Stock</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -58,6 +59,8 @@
         { data: 'name', name: 'name' },
         { data: 'category.name', name: 'category.name' },
         { data: 'price', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
+        { data: 'stock', name: 'stock' },
+
         { 
           data: 'action',
           name: 'action',
