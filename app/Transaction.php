@@ -28,6 +28,7 @@ class Transaction extends Model
         'address_one',
         'address_two',
         'resi',
+        'midtrans'
     ];
 
     /**

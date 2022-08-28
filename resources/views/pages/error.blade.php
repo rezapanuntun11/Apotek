@@ -12,7 +12,7 @@
           <div class="col-lg-6 text-center">
             <img src="/images/success.svg" alt="" class="mb-4">
             <h2>
-              Transaction Processed!
+              Transaction Error!
             </h2>
             <p>
               Silahkan tunggu konfirmasi email dari kami dan kami akan

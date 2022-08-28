@@ -63,7 +63,7 @@
                       @endforeach
                       <hr>
                       <div class="row justify-content-end">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                           <div class="row">
                             <div class="col-md-5"><b>Courier</b></div>
                             <div class="col-md-1">:</div>
@@ -77,9 +77,17 @@
                           <div class="row">
                             <div class="col-md-5"><b>Total Amount</b></div>
                             <div class="col-md-1">:</div>
-                            <div class="col-md-5"><h6>Rp.{{ number_format($transaction->total_price) }}</h6></div>
+                            <div class="col-md-5">
+                              <h6>Rp.{{ number_format($transaction->total_price) }}</h6></div>
+                            
                           </div>
-                          
+                          <div class="row">
+                            <div class="col-md-12">
+                              @if ($transaction->transaction_status == "PENDING")
+                              <a href="{{ $transaction->midtrans ?? "#" }}" class="btn btn-primary ml-1 mt-2">Bayar</a>
+                            @endif
+                            </div>
+                          </div>
                           
                         </div>
                       </div>

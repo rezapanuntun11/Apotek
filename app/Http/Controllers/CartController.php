@@ -34,4 +34,14 @@ class CartController extends Controller
     {
         return view('pages.success');
     }
+
+    public function unfinish()
+    {
+        return view('pages.unfinish');
+    }
+
+    public function error()
+    {
+        return view('pages.error');
+    }
 }
